@@ -7,7 +7,7 @@ class Test {
     });
   }
 
-  static expectError(cb, label) {
+  static expectError(label, cb) {
     test(label, () => {
       expect(cb).toThrow("NaN Exception");
     });
@@ -34,16 +34,16 @@ Test.assertEquals(
 Test.assertEquals(
   numberToEnglish(1000000),
   "one million",
-  "1000000 -> one  million"
+  "1000000 -> one million"
 );
 Test.assertEquals(
   numberToEnglish(1000001),
   "one million and one",
-  "1000001  -> one million and one"
+  "1000001 -> one million and one"
 );
 Test.assertEquals(
   numberToEnglish(1011011),
-  "one million eleven thousand and  eleven",
+  "one million eleven thousand and eleven",
   "1011011 -> one million eleven thousand and eleven"
 );
 Test.assertEquals(
@@ -54,11 +54,11 @@ Test.assertEquals(
 Test.assertEquals(numberToEnglish(-6000006), "negative six million and six");
 Test.assertEquals(
   numberToEnglish(100023999),
-  "one hundred million  twenty-three thousand nine hundred and ninety-nine"
+  "one hundred million twenty-three thousand nine hundred and ninety-nine"
 );
 Test.assertEquals(
   numberToEnglish(3.14159),
-  "three point one four one five  nine",
+  "three point one four one five nine",
   "Decimal numbers count each digit"
 );
 Test.assertEquals(
@@ -68,13 +68,13 @@ Test.assertEquals(
 );
 Test.assertEquals(
   numberToEnglish(-65721.55531),
-  "negative sixty-five  thousand seven hundred and twenty-one point five five five three one"
+  "negative sixty-five thousand seven hundred and twenty-one point five five five three one"
 );
 Test.assertEquals(numberToEnglish(0), "zero", "0 -> zero");
 Test.assertEquals(
   numberToEnglish("6"),
   "six",
-  "strings that evaluate to  numbers are ok"
+  "strings that evaluate to numbers are ok"
 );
 Test.assertEquals(
   numberToEnglish(Number.POSITIVE_INFINITY),
@@ -83,17 +83,17 @@ Test.assertEquals(
 );
 Test.assertEquals(
   numberToEnglish(Number.NEGATIVE_INFINITY),
-  "negative  infinity",
+  "negative infinity",
   "negative infinity"
 );
 Test.assertEquals(
   numberToEnglish(-50),
   "negative fifty",
-  "Negative numbers  should include the word 'negative' before the first digit."
+  "Negative numbers should include the word 'negative' before the first digit."
 );
 Test.assertEquals(
   numberToEnglish(-1234567899),
-  "negative one billion two  hundred and thirty-four million five hundred and sixty-seven thousand eight  hundred and ninety-nine",
+  "negative one billion two hundred and thirty-four million five hundred and sixty-seven thousand eight hundred and ninety-nine",
   "1,234,567,899"
 );
 Test.expectError("NaN should throw an error.", function() {
