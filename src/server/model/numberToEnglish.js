@@ -123,7 +123,7 @@ export default numberInDigits => {
   let numberAsString = numberInDigits + "",
     dotPosition = numberAsString.indexOf(DECIMAL_SEPARATOR),
     decimalPart =
-      dotPosition !== -1 ? _.comnumberAsString.slice(0, dotposition) : "",
+      dotPosition !== -1 ? numberAsString.slice(0, dotPosition) : "",
     integerPart =
       dotPosition !== -1
         ? numberAsString.slice(
