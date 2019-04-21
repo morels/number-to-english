@@ -16,7 +16,7 @@ function convertChunk(depthMax) {
         Number.parseInt(h) ? readDigit({ h: Number.parseInt(h) }) : "",
         Number.parseInt(da + u) &&
         (Number.parseInt(h) || (hasPrintedSomething && depth === 0))
-          ? " and "
+          ? "and"
           : "",
         Number.parseInt(da + u)
           ? readDigit({ dau: Number.parseInt(da + u) })
@@ -147,8 +147,8 @@ export default numberInDigits => {
 
   console.log({ chunks }, decimalPart.length ? "si" : "no");
 
-  return _.compact([
-    chunks.map(convertChunk(levels)).join(" "),
+  let result = _.compact([
+    _.compact(chunks.map(convertChunk(levels))).join(" "),
     decimalPart.length
       ? decimalPart
           .split()
