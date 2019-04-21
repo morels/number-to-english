@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 function convertChunk(depthMax) {
   let depth = depthMax;
   let hasPrintedSomething = false;
@@ -145,14 +147,13 @@ export default numberInDigits => {
 
   console.log({ chunks }, decimalPart.length ? "si" : "no");
 
-  return (
-    chunks.map(convertChunk(levels)).join(" ") +
-    DECIMAL_SEPARATOR +
-    (decimalPart.length
+  return _.compact([
+    chunks.map(convertChunk(levels)).join(" "),
+    decimalPart.length
       ? decimalPart
           .split()
           .map(dau => readDigit({ dau: Number.parseInt(dau) }))
           .join()
-      : "")
-  );
+      : ""
+  ]).join(DECIMAL_SEPARATOR);
 };

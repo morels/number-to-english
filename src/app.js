@@ -1,5 +1,5 @@
 import express from "express";
-import digitToWordsController from "./controllers/digitToWordsController";
+import digitToWordsController from "./server/controllers/digitToWordsController";
 import morgan from "morgan";
 
 const app = express();
