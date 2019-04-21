@@ -10,7 +10,8 @@ function convertChunk(depthMax) {
 
     // handle all-zeros use case
     if (Number.parseInt(chunk.join("")) === 0) {
-      chunkInLetters = depth === 0 ? readDigit({ dau: 0 }) : "";
+      chunkInLetters =
+        depth === 0 && !hasPrintedSomething ? readDigit({ dau: 0 }) : "";
     } else {
       chunkInLetters = _.compact([
         Number.parseInt(h) ? readDigit({ h: Number.parseInt(h) }) : "",
