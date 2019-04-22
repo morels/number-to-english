@@ -1,18 +1,5 @@
 import numberToEnglish from "../model/numberToEnglish";
-
-class Test {
-  static assertEquals(cb, result, label) {
-    test(label||result, () => {
-      expect(cb).toBe(result);
-    });
-  }
-
-  static expectError(label, cb) {
-    test(label, () => {
-      expect(cb).toThrow("NaN Exception");
-    });
-  }
-}
+import { TestAdapter as Test } from "../util/testAdapter";
 
 Test.assertEquals(numberToEnglish(1), "one", "1 -> one");
 Test.assertEquals(numberToEnglish(5), "five", "5 -> five");
