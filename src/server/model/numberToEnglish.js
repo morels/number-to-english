@@ -113,6 +113,8 @@ function readDigit(readable) {
     return `${LESS_THAN_TWENTY[readable.h]} hundred`;
   } else if (readable.depth >= 0) {
     return DEPTH[readable.depth];
+  } else if (readable.hasOwnProperty("point")) {
+    return "point";
   }
 }
 
@@ -124,13 +126,10 @@ export default numberInDigits => {
   let numberAsString = numberInDigits + "",
     dotPosition = numberAsString.indexOf(DECIMAL_SEPARATOR),
     decimalPart =
-      dotPosition !== -1 ? numberAsString.slice(0, dotPosition) : "",
+      dotPosition !== -1 ? numberAsString.slice(dotPosition + 1) : "",
     integerPart =
       dotPosition !== -1
-        ? numberAsString.slice(
-            numberAsString.indexOf(DECIMAL_SEPARATOR),
-            numberAsString.length - 1
-          )
+        ? numberAsString.slice(0, dotPosition)
         : numberAsString;
 
   console.log({
@@ -148,13 +147,17 @@ export default numberInDigits => {
 
   console.log({ chunks }, decimalPart.length ? "si" : "no");
 
-  let result = _.compact([
+  let numberInEnglish = _.compact([
     _.compact(chunks.map(convertChunk(levels))).join(" "),
     decimalPart.length
-      ? decimalPart
-          .split()
-          .map(dau => readDigit({ dau: Number.parseInt(dau) }))
-          .join()
+      ? `${readDigit({ point: true })} ${decimalPart
+          .split("")
+          .map(dau => {
+            return readDigit({ dau: Number.parseInt(dau) });
+          })
+          .join(" ")}`
       : ""
-  ]).join(DECIMAL_SEPARATOR);
+  ]).join(" ");
+
+  return numberInEnglish;
 };

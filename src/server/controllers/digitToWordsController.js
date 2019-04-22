@@ -6,5 +6,5 @@ export default (req, res) => {
   // TODO: validation in middleware run before this controller
 
   const { numberInDigits } = req.params;
-  res.send(numberToEnglish(Number.parseInt(numberInDigits.replace(/'/g, ""))));
+  res.send(numberToEnglish(Number.parseFloat(numberInDigits.replace(/'/g, ""))));
 };
