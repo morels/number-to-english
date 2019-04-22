@@ -113,17 +113,34 @@ function readDigit(readable) {
     return `${LESS_THAN_TWENTY[readable.h]} hundred`;
   } else if (readable.depth >= 0) {
     return DEPTH[readable.depth];
+  } else if (readable.hasOwnProperty("negative")) {
+    return "negative";
   } else if (readable.hasOwnProperty("point")) {
     return "point";
+  } else if (readable.hasOwnProperty("infinity")) {
+    return `${readable.infinity ? "" : "negative "}infinity`;
   }
 }
 
 export default numberInDigits => {
-  // controlli:
-  // togli tutti gli zeri a sx e a dx
-  // controlla con una regex se è wellformed
+  // Handling use cases:
+  // * Number.POSITIVE_INFINITY
+  // * Number.NEGATIVE_INFINITY
+  // * NaN
+  if (Number.isNaN(numberInDigits)) throw "NaN Exception";
+
+  if (
+    numberInDigits === Number.POSITIVE_INFINITY ||
+    numberInDigits === Number.NEGATIVE_INFINITY
+  )
+    return readDigit({ infinity: numberInDigits > 0 });
+
   const DECIMAL_SEPARATOR = ".";
-  let numberAsString = numberInDigits + "",
+
+  // Algorithm:
+  // Read: sign, integer part and
+  let isNegative = numberInDigits < 0,
+    numberAsString = Math.abs(numberInDigits) + "",
     dotPosition = numberAsString.indexOf(DECIMAL_SEPARATOR),
     decimalPart =
       dotPosition !== -1 ? numberAsString.slice(dotPosition + 1) : "",
@@ -148,6 +165,7 @@ export default numberInDigits => {
   console.log({ chunks }, decimalPart.length ? "si" : "no");
 
   let numberInEnglish = _.compact([
+    isNegative ? readDigit({ negative: true }) : "",
     _.compact(chunks.map(convertChunk(levels))).join(" "),
     decimalPart.length
       ? `${readDigit({ point: true })} ${decimalPart
