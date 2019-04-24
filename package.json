@@ -1,23 +1,23 @@
 {
-  "name": "number-reader",
-  "version": "0.1.0",
-  "description": "[M]ERN stack app that converts number into spoken language expression and v.v.",
-  "main": "app.js",
+  "name": "mern-numbers2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist/ && babel ./src/ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "npm run build && node dist/app.js"
+    "start": "concurrently \"cd server && node dist/app.js\" \"cd client && npm start\""
   },
-  "author": "luca.morelli.lm@gmail.com",
-  "license": "MIT",
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "rimraf": "^2.6.3"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morels/number-to-english.git"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/morels/number-to-english/issues"
+  },
+  "homepage": "https://github.com/morels/number-to-english#readme",
   "dependencies": {
-    "express": "^4.16.4",
-    "lodash": "^4.17.11",
-    "morgan": "^1.9.1"
+    "concurrently": "^4.1.0"
   }
 }
