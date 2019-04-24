@@ -26,12 +26,6 @@ function convertChunk(depthMax) {
       ]).join(" ");
     }
 
-    console.log(
-      "---------\n",
-      `chunkInLetters ${chunkInLetters}`,
-      Number.parseInt(da + u),
-      ` depth ${depth}`
-    );
     // Keep track of previous chunks printed.
     // E.g. 1000001 => "one million and one"
     hasPrintedSomething = hasPrintedSomething || chunkInLetters.length > 0;
@@ -43,10 +37,6 @@ function convertChunk(depthMax) {
 
 function normalize(numberAsString) {
   //filla di zeri il numero
-  // let digits = !options
-  //   ? numberInDigits.split()
-  //   : ("0".repeat(3 - numberInDigits.length) + numberInDigits).split();
-  console.log("typeof numberAsString", typeof numberAsString);
   if (numberAsString.length % 3)
     return "0".repeat(3 - (numberAsString.length % 3)) + numberAsString;
   return numberAsString;
@@ -98,9 +88,7 @@ function readDigit(readable) {
     "ninety"
   ];
 
-  console.log("readable", readable);
-
-  if (readable.dau >= 0) {
+  if (readable.hasOwnProperty("dau")) {
     return readable.dau >= 20
       ? readable.dau % 10 === 0
         ? TENTHS_LESS_THAN_HUNDRED[Math.floor(readable.dau / 10)]
@@ -109,9 +97,9 @@ function readDigit(readable) {
             LESS_THAN_TWENTY[readable.dau % 10]
           ].join("-")
       : LESS_THAN_TWENTY[readable.dau];
-  } else if (readable.h >= 0) {
+  } else if (readable.hasOwnProperty("h")) {
     return `${LESS_THAN_TWENTY[readable.h]} hundred`;
-  } else if (readable.depth >= 0) {
+  } else if (readable.hasOwnProperty("depth")) {
     return DEPTH[readable.depth];
   } else if (readable.hasOwnProperty("negative")) {
     return "negative";
@@ -138,7 +126,11 @@ export default numberInDigits => {
   const DECIMAL_SEPARATOR = ".";
 
   // Algorithm:
-  // Read: sign, integer part and
+  // Some information is gathered using a lookahead approach, so the number is
+  // processed as read LTR as in natural language.
+  // 1) Read elements: sign, integer and decimal part of the number
+  // 2) convert parts separately
+  // 3) join results
   let isNegative = numberInDigits < 0,
     numberAsString = Math.abs(numberInDigits) + "",
     dotPosition = numberAsString.indexOf(DECIMAL_SEPARATOR),
@@ -149,20 +141,10 @@ export default numberInDigits => {
         ? numberAsString.slice(0, dotPosition)
         : numberAsString;
 
-  console.log({
-    DECIMAL_SEPARATOR,
-    numberAsString,
-    dotPosition,
-    decimalPart,
-    integerPart
-  });
-
   //procedurale per splittare i segmenti Look ahead
   const normalizedInteger = normalize(integerPart);
   const levels = normalizedInteger.length / 3 - 1;
   const chunks = _.chunk(normalizedInteger, 3);
-
-  console.log({ chunks }, decimalPart.length ? "si" : "no");
 
   let numberInEnglish = _.compact([
     isNegative ? readDigit({ negative: true }) : "",
